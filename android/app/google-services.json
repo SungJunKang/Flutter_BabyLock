@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "989371383143",
+    "firebase_url": "https://babylock-f76a2.firebaseio.com",
+    "project_id": "babylock-f76a2",
+    "storage_bucket": "babylock-f76a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989371383143:android:562cffa1b3479ff63703c2",
+        "android_client_info": {
+          "package_name": "com.example.babylock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989371383143-g1p2ptac8c2n6fbnd6k1l7ut13k6mjfq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.babylock",
+            "certificate_hash": "abf417dc48c892c4cb6e68b02ab207c08651f868"
+          }
+        },
+        {
+          "client_id": "989371383143-puabu98r0hpa4ahn06ep0fq4hg98rf9m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAxvfa7sVGRQeacbkaMVID3A8MtsNSWEho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989371383143-puabu98r0hpa4ahn06ep0fq4hg98rf9m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
