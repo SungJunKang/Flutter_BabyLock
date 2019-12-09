@@ -2,14 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
-final GoogleSignIn googleSignIn = GoogleSignIn(
-    scopes: [
-      "email",
-      "openid",
-      "profile",
-      "https://www.googleapis.com/auth/youtube"
-    ],
-  );
+final GoogleSignIn googleSignIn = GoogleSignIn();
 
 String name;
 String email;
