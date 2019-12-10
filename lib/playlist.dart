@@ -1,31 +1,25 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:youtube_api/youtube_api.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
 class PlayList extends StatefulWidget {
+  final String title;
+  final String url;
+
+  PlayList({this.title, this.url});
+
   @override
   _PlayListState createState() => _PlayListState();
 }
 
 class _PlayListState extends State<PlayList> {
-  static String key = "AIzaSyAUXXfz2UgY_C1-mC0DSFdp_tA7RvbKrLA";
 
-  YoutubeAPI youtubeAPI = new YoutubeAPI(key);
-  List<YT_API> youtubeResult = [];
+  Future<List> getData() async {
+    final respose = await http.get(widget.url);
 
-  callAPI() async {
-    print('UI Called');
-    String query = "FLUTTER";
-    youtubeResult = await youtubeAPI.search(query);
-    setState(() {
-      print('UI Updated');
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    callAPI();
-    print('hello');
+    return json.decode(respose.body);
   }
 
   @override
@@ -39,48 +33,79 @@ class _PlayListState extends State<PlayList> {
             fit: BoxFit.cover
           )
         ),
-        child: ListView.builder(
-          itemCount: youtubeResult.length,
-          itemBuilder: (_, int index) => listItem(index)
-        ),
-      ),
-    );
-  }
+        child: FutureBuilder<List>(
+          future: getData(),
+          builder: (context, snapshot){
+            if(snapshot.hasError) {
+              print(snapshot.error);
+            }
 
-  Widget listItem(index){
-    return new Card(
-      child: new Container(
-        margin: EdgeInsets.symmetric(vertical: 7.0),
-        padding: EdgeInsets.all(12.0),
-        child:new Row(
-          children: <Widget>[
-            new Image.network(youtubeResult[index].thumbnail['default']['url'],),
-            new Padding(padding: EdgeInsets.only(right: 20.0)),
-            new Expanded(child: new Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                new Text(
-                  youtubeResult[index].title,
-                  softWrap: true,
-                  style: TextStyle(fontSize:18.0),
-                ),
-                new Padding(padding: EdgeInsets.only(bottom: 1.5)),
-                new Text(
-                  youtubeResult[index].channelTitle,
-                  softWrap: true,
-                ),
-                new Padding(padding: EdgeInsets.only(bottom: 3.0)),
-                new Text(
-                  youtubeResult[index].url,
-                  softWrap: true,
-                ),
-              ]
-            ))
-          ],
+            return snapshot.hasData ? new ListVideo(list: snapshot.data) : Center(child: CircularProgressIndicator());
+          },
         ),
       ),
     );
   }
-  
+}
+
+class ListVideo extends StatelessWidget {
+  final List list;
+
+  ListVideo({this.list});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: list == null ? 0 : list.length,
+      itemBuilder: (context, i) {
+        return Container(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: <Widget>[
+              GestureDetector(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => VideoPlay(url: "https://youtube.com/embed/${list[i]['contentDetails']['videoId']}")
+                )),
+                child: Container(
+                height: 210.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(list[i]['snippet']['thumnails']['high']['url']), 
+                    fit: BoxFit.cover
+                  )
+                ),
+              ),
+            ),
+
+              Padding(padding: const EdgeInsets.all(10.0)),
+
+              Text(
+                list[i]['snippet']['title'],
+                style: TextStyle(fontSize: 18.0),
+              ),
+
+              Padding(padding: const EdgeInsets.all(10.0)),
+
+              Divider()
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class VideoPlay extends StatelessWidget {
+  final String url;
+
+  VideoPlay({this.url});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: WebviewScaffold(
+        url: url,
+      ),
+    );
+  }
 }
