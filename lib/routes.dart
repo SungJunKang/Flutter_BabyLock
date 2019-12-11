@@ -8,6 +8,6 @@ import 'package:babylock/tutorial.dart';
 final routes = {
   '/': (BuildContext context) => LoginPage(),
   '/mainpage': (BuildContext context) => MyHomePage(),
-  '/playlist': (BuildContext context) => PlayList(), 
+  '/playlist': (BuildContext context) => PlayList(url: "https://babylock.herokuapp.com/", title: "babylock"), 
   '/tutorial': (BuildContext context) => Tutorial(),
 };

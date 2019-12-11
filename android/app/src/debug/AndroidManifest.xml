@@ -4,9 +4,5 @@
          to allow setting breakpoints, to provide hot reload, etc.
     -->
 
-    <application
-        android:name=".App">
-    </application>
-
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

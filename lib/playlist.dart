@@ -33,7 +33,9 @@ class _PlayListState extends State<PlayList> {
             fit: BoxFit.cover
           )
         ),
-        child: FutureBuilder<List>(
+        child: Container(
+          margin: const EdgeInsets.only(top: 150.0),
+          child: FutureBuilder<List>(
           future: getData(),
           builder: (context, snapshot){
             if(snapshot.hasError) {
@@ -43,6 +45,7 @@ class _PlayListState extends State<PlayList> {
             return snapshot.hasData ? new ListVideo(list: snapshot.data) : Center(child: CircularProgressIndicator());
           },
         ),
+        )
       ),
     );
   }
@@ -70,7 +73,7 @@ class ListVideo extends StatelessWidget {
                 height: 210.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(list[i]['snippet']['thumnails']['high']['url']), 
+                    image: NetworkImage(list[i]['snippet']['thumbnails']['high']['url']), 
                     fit: BoxFit.cover
                   )
                 ),
