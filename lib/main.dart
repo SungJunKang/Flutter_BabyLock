@@ -49,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
           
           children: <Widget>[
             FlatButton(
+              
               child: Image.asset('assets/main/main_screenlock.png'),
               onPressed: () {},
             ),

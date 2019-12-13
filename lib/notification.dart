@@ -1,19 +1,39 @@
+import 'package:babylock/playlist.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+class AlertNotification{
+  FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+
+  BuildContext context;
+
+  AlertNotification({this.context});
 
   void initState() {
-    var androidSetting = AndroidInitializationSettings('@drawable/icon_babylock.png');
+    var androidSetting = AndroidInitializationSettings('icon_babylock.png');
     var iosSetting = IOSInitializationSettings();
     var initializationSettings = InitializationSettings(androidSetting, iosSetting);
 
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    _flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: onSelectNotification);
   }
 
-  Future showNotificationWithSound() async {
+  Future onSelectNotification(String payload) async {
+    if (payload != null) {
+      debugPrint('notification payload: ' + payload);
+    }
+    await Navigator.push(
+      context,
+      new MaterialPageRoute(builder: (context) => new PlayList(url: "https://babylock.herokuapp.com/", title: "babylock")),
+    );
+  }
+
+  Future showNotificationWithSound(BuildContext buildContext) async {
+
+    context = buildContext;
+
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'your channel id', 'your channel name', 'your channel description',
+      '999', 'BabyLock', 'BabyLock',
       sound: 'slow_spring_board',
       importance: Importance.Max,
       priority: Priority.High
@@ -31,3 +51,4 @@ FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
       payload: 'BabyLock',
     );
   }
+}

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
-import 'package:babylock/notification.dart' as alertnotification;
+import 'package:babylock/notification.dart';
 
 class PlayList extends StatefulWidget {
   final String title;
@@ -67,8 +67,8 @@ class ListVideo extends StatelessWidget {
             children: <Widget>[
               GestureDetector(
                 onTap: () => {
-                  alertnotification.initState(),
-                  alertnotification.showNotificationWithSound(),
+                  AlertNotification(context: context).initState(),
+                  AlertNotification(context: context).showNotificationWithSound(context),
                   Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => VideoPlay(url: "https://youtube.com/embed/${list[i]['contentDetails']['videoId']}"),
                   ))
