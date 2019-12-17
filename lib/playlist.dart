@@ -56,6 +56,8 @@ class ListVideo extends StatelessWidget {
 
   ListVideo({this.list});
 
+  AlertNotification alertNotification = AlertNotification();
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -67,8 +69,8 @@ class ListVideo extends StatelessWidget {
             children: <Widget>[
               GestureDetector(
                 onTap: () => {
-                  AlertNotification(context: context).initState(),
-                  AlertNotification(context: context).showNotificationWithSound(context),
+                  alertNotification.initState(),
+                  alertNotification.showNotificationWithSound(context),
                   Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => VideoPlay(url: "https://youtube.com/embed/${list[i]['contentDetails']['videoId']}"),
                   ))
